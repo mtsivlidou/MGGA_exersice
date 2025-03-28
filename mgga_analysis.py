@@ -28,6 +28,38 @@ print (mgga_data.shape)
 gps_data['date time'] = pd.to_datetime(gps_data['date time'], format='%Y-%m-%d %H:%M:%S')
 # mgga_data['Time'] = pd.to_datetime(mgga_data['Time'], format='%Y-%m-%d %H:%M:%S')
 
+### methane correction for interfearence with water vapor
+## constants 
+
+alpha    = -1.55636 
+beta     = -12.25066 
+a        = -0.00031  
+b        = -0.00019   
+C        = 0.01323  #(ppm)
+G        = 0.99697 
+sigma_nu = 0.00043 
+sigma_G  = 0.00023 
+sigma_C  = 0.00203  #(ppm)
+sigma_L  = 0.00282  #(ppm)
+sigma_n  = 0.00270  #(ppm)
+
+# Corrects the methane concentration (CH4_wet_ppm) based on water vapor effects.
+# Uses empirical correction factors (L18, L19, L20, L21, G, C) that have been determined through experimental calibration.
+# The equation ensures that the methane concentration is adjusted for water vapor interference, which affects gas analyzers.
+# Many methane sensors use infrared absorption spectroscopy to measure CH₄.
+# Water vapor also absorbs infrared light at similar wavelengths as methane.
+# This interference increases the detected methane concentration, making it appear higher than it actually is.
+
+mgga_data['[CH4]_ppm'] = (mgga_data['[CH4]_ppm'] * G / (1 + (alpha * (( mgga_data['[H2O]_ppm'] / 1000000) - (a + (b*mgga_data['[CH4]_ppm'])))) + 
+                                                        (beta*((mgga_data['[H2O]_ppm'] /1000000)-(a+  (b*mgga_data['[CH4]_ppm'])))* (( mgga_data['[H2O]_ppm'] /1000000) - 
+                                                                                                                            (a +  (b*mgga_data['[CH4]_ppm'])))))) + C 
+## methane uncertainty 
+mgga_data['[CH4]_ppm_uncertainty'] = np.sqrt((((mgga_data['[CH4]_ppm']/(1 + (alpha *((mgga_data['[H2O]_ppm']/1000000) - (a + (b*mgga_data['[CH4]_ppm'])))) + 
+                                                             (beta*((mgga_data['[H2O]_ppm']/1000000) - (a + (b*mgga_data['[CH4]_ppm'])))*((mgga_data['[H2O]_ppm']/1000000) - 
+                                                                (a + (b*mgga_data['[CH4]_ppm']))))))^2)*(((sigma_nu*G)^2) + ((sigma_G*(1 + (alpha *((mgga_data['[H2O]_ppm']/1000000) - 
+                                                                (a + (b*mgga_data['[CH4]_ppm'])))) + (beta*((mgga_data['[H2O]_ppm']/1000000) - (a + (b*mgga_data['[CH4]_ppm'])))*
+                                                                ((mgga_data['[H2O]_ppm']/1000000) - (a + (b*mgga_data['[CH4]_ppm']))))))^2))) + (sigma_C^2) + (sigma_L^2) + (sigma_n^2))
+ 
 ###############################################################
 # here I copy the timestamp to make the script run 
 # it needs corrections to either interpolate to this timestamp 
