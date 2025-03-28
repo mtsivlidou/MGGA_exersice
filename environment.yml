@@ -10,4 +10,5 @@ dependencies:
   - conda-forge::geopandas
   - conda-forge::jupyter
   - conda-forge::seaborn
+  - conda-forge::plotly 
 prefix: C:\Users\davet\anaconda3\envs\DEES_programming
