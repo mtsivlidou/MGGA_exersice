@@ -111,13 +111,14 @@ plt.show()
 import plotly.graph_objects as go
 
 # Create a Plotly figure with Mapbox tiles
-fig = go.Figure(go.Scattermapbox(
+fig = go.Figure(go.Scattermap(
     lat= mgga_data['latitude'],  # Use the latitude values from your DataFrame
     lon= mgga_data['longitude'],  # Use the longitude values from your DataFrame
     mode='markers',
     marker={'size': 12, 'color': mgga_data['[CH4]_ppm'], 'colorscale': 'Viridis', 'colorbar': {'title': 'CH4 Levels'}},  # Color by CH4 values
     text= mgga_data['[CH4]_ppm'],  # Display CH4 value on hover
 ))
+
 # Set up Mapbox style and layout
 fig.update_layout(
     mapbox_style="open-street-map",  # Use OpenStreetMap tiles for the base map
@@ -125,17 +126,19 @@ fig.update_layout(
     mapbox_center={"lat": mgga_data['latitude'].mean(), "lon": mgga_data['longitude'].mean()},  # Center map on the average lat/lon
     title="City Locations with CH4 Levels",
 )
+
 # Show the map
 fig.show()
 
 # Create a Plotly figure with Mapbox tiles
-fig = go.Figure(go.Scattermapbox(
+fig = go.Figure(go.Scattermap(
     lat= mgga_data['latitude'],  # Use the latitude values from your DataFrame
     lon= mgga_data['longitude'],  # Use the longitude values from your DataFrame
     mode='markers',
     marker={'size': 12, 'color': mgga_data['[CO2]_ppm'], 'colorscale': 'Viridis', 'colorbar': {'title': 'CO2 Levels'}},  # Color by CH4 values
     text= mgga_data['[CO2]_ppm'],  # Display CH4 value on hover
 ))
+
 # Set up Mapbox style and layout
 fig.update_layout(
     mapbox_style="open-street-map",  # Use OpenStreetMap tiles for the base map
@@ -143,5 +146,6 @@ fig.update_layout(
     mapbox_center={"lat": mgga_data['latitude'].mean(), "lon": mgga_data['longitude'].mean()},  # Center map on the average lat/lon
     title="City Locations with CO2 Levels",
 )
+
 # Show the map
 fig.show()
