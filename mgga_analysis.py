@@ -56,9 +56,9 @@ mgga_data['[CH4]_ppm'] = (mgga_data['[CH4]_ppm'] * G / (1 + (alpha * (( mgga_dat
 ## methane uncertainty 
 mgga_data['[CH4]_ppm_uncertainty'] = np.sqrt((((mgga_data['[CH4]_ppm']/(1 + (alpha *((mgga_data['[H2O]_ppm']/1000000) - (a + (b*mgga_data['[CH4]_ppm'])))) + 
                                                              (beta*((mgga_data['[H2O]_ppm']/1000000) - (a + (b*mgga_data['[CH4]_ppm'])))*((mgga_data['[H2O]_ppm']/1000000) - 
-                                                                (a + (b*mgga_data['[CH4]_ppm']))))))^2)*(((sigma_nu*G)^2) + ((sigma_G*(1 + (alpha *((mgga_data['[H2O]_ppm']/1000000) - 
+                                                                (a + (b*mgga_data['[CH4]_ppm']))))))**2)*(((sigma_nu*G)**2) + ((sigma_G*(1 + (alpha *((mgga_data['[H2O]_ppm']/1000000) - 
                                                                 (a + (b*mgga_data['[CH4]_ppm'])))) + (beta*((mgga_data['[H2O]_ppm']/1000000) - (a + (b*mgga_data['[CH4]_ppm'])))*
-                                                                ((mgga_data['[H2O]_ppm']/1000000) - (a + (b*mgga_data['[CH4]_ppm']))))))^2))) + (sigma_C^2) + (sigma_L^2) + (sigma_n^2))
+                                                                ((mgga_data['[H2O]_ppm']/1000000) - (a + (b*mgga_data['[CH4]_ppm']))))))**2))) + (sigma_C**2) + (sigma_L**2) + (sigma_n**2))
  
 ###############################################################
 # here I copy the timestamp to make the script run 
